@@ -54,19 +54,7 @@ const map = new maplibregl.Map({
           [15771413.214,5284504.212],
           [15769835.545,5284244.972], */
 
-          /* //陰影起伏図
-          inei: {
-            type: 'raster',
-            tiles: [
-              'https://cyberjapandata.gsi.go.jp/xyz/hillshademap/{z}/{x}/{y}.png'
-            ],
-            minzoom: 2,
-            maxzoom: 17,
-            tileSize: 256,
-            attribution:
-            '<a href="https://cyberjapandata.gsi.go.jp/development/ichiran.html#relief">地理院タイル一覧</a>',
-          },
-          //陰影起伏図ここまで
+    
           //航空写真ここから
           aerial: {
             type: 'raster',
