@@ -3,40 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>テレインマップver0</title>
+        <link rel="manifest" href="manifest.json" />
+        <!-- PWA: manifest.json読み込み -->
+        <title>位置情報アプリケーション開発実践編</title>
     </head>
     <body style="margin: 0">
-<!--     <style>
-        .overlay {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        }
-            
-        .overlay button {
-        font: 600 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        background-color: #3386c0;
-        color: #fff;
-        display: inline-block;
-        margin: 0;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 3px;
-        }
-            
-        .overlay button:hover {
-        background-color: #4ea0da;
-        }
-        </style> -->
-
         <div id="map" style="height: 100vh"></div>
         <script type="module" src="./main.js"></script>
-
-<!--         <div id="map"></div>
-        <div class="overlay">
-        <button id="replay">Replay</button>
-        </div>
-         -->
+        <script>
+            // PWA: ServiceWorker読み込み
+            if ('serviceWorker' in navigator)
+                navigator.serviceWorker.register('./sw.js');
+        </script>
     </body>
 </html>
