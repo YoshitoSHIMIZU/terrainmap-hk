@@ -41,20 +41,19 @@ const map = new maplibregl.Map({
           //アンカレジパーク投影
           anchorage: {
             type: 'image',
-            url: './public/20220499-01-ankarejipark-s.jpg',
+            url: './20220499-01-ankarejipark-s.jpg',
             coordinates: [
-              [141.66079115, 42.82509906],
-              [141.67496330, 42.82680641],
-              [141.67702206, 42.81927329],
-              [141.66284385, 42.81756678],
+              [141.660790470, 42.825100608],
+              [141.67496204, 42.82680712],
+              [141.6770271, 42.8192833],
+              [141.6628374, 42.8175565],
             ],
           },
 /*           [15769606.94,5285387.34],
           [15771184.290,5285647.030],
           [15771413.214,5284504.212],
-          [15769835.545,5284244.972], */
-
-    
+          [15769835.545,5284244.972],  */
+              
           //航空写真ここから
           aerial: {
             type: 'raster',
@@ -69,10 +68,7 @@ const map = new maplibregl.Map({
           },
           //航空写真ここまで
 
-          terrain: {
-            type: 'geojson',
 
-          } */
      },
       layers: [
         //アンカレジパーク追加
@@ -112,6 +108,26 @@ const map = new maplibregl.Map({
     }
 });
 
+/* const image = new Image();
+image.src = './20220499-01-ankarejipark-s.jpg';
+image.onload = function() {
+  map.addImage('custom-image', image, { sdf: false });
+  map.addSource('image-source', {
+    type: 'image',
+    url: 'custom-image',
+    coordinates: [
+      [141.66079115, 42.82509906],
+      [141.67496330, 42.82680641],
+      [141.67702206, 42.81927329],
+      [141.66284385, 42.81756678],
+    ],
+  });
+  map.addLayer({
+    id: 'image-layer',
+    type: 'raster',
+    source: 'image-source'
+  });
+}; */
 
 /* // マップの初期ロード完了時に発火するイベントを定義
 map.on('load', () => {
@@ -160,7 +176,7 @@ map.on('load', function(){
   // ポイントのデータソース設定
   map.addSource('point_poi', {
     type: 'geojson',
-    data: "./public/terrain-hk-v1-1.geojson"
+    data: "/terrain-hk-v1-1.geojson"
   });
       // ポイントのデータソース設定
   map.addLayer({
