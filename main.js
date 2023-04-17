@@ -29,48 +29,54 @@ const map = new maplibregl.Map({
                   '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           }, */
 
-          mierune: {
-            type: 'raster',
-            tiles: ['https://api.maptiler.com/maps/jp-mierune-gray/{z}/{x}/{y}.png?key=IP9CYAWJVLGwdbFbpPVD'],
-            maxzoom: 19,
-            tileSize: 256,
-            attribution:
-                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          },
+        mierune: {
+          type: 'raster',
+          tiles: ['https://api.maptiler.com/maps/jp-mierune-gray/{z}/{x}/{y}.png?key=IP9CYAWJVLGwdbFbpPVD'],
+          maxzoom: 19,
+          tileSize: 256,
+          attribution:
+              '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        },
 
-          //アンカレジパーク投影
-          anchorage: {
-            type: 'image',
-            url: './20220499-01-ankarejipark-s.jpg',
-            coordinates: [
-              [141.660790470, 42.825100608],
-              [141.67496204, 42.82680712],
-              [141.6770271, 42.8192833],
-              [141.6628374, 42.8175565],
-            ],
-          },
+        //アンカレジパーク投影
+        anchorage: {
+          type: 'image',
+          url: './20220499-01-ankarejipark-s.jpg',
+          coordinates: [
+            [141.660790470, 42.825100608],
+            [141.67496204, 42.82680712],
+            [141.6770271, 42.8192833],
+            [141.6628374, 42.8175565],
+          ],
+        },
 /*           [15769606.94,5285387.34],
-          [15771184.290,5285647.030],
-          [15771413.214,5284504.212],
-          [15769835.545,5284244.972],  */
+        [15771184.290,5285647.030],
+        [15771413.214,5284504.212],
+        [15769835.545,5284244.972],  */
               
-          //航空写真ここから
-          aerial: {
-            type: 'raster',
-            tiles: [
-              'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg'
-            ],
-            minzoom: 2,
-            maxzoom: 17,
-            tileSize: 256,
-            attribution:
-            '<a href="https://cyberjapandata.gsi.go.jp/development/ichiran.html#relief">地理院タイル一覧</a>',
-          },
-          //航空写真ここまで
-
-
+/*           //航空写真ここから
+        aerial: {
+          type: 'raster',
+          tiles: [
+            'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg'
+          ],
+          minzoom: 2,
+          maxzoom: 17,
+          tileSize: 256,
+          attribution:
+          '<a href="https://cyberjapandata.gsi.go.jp/development/ichiran.html#relief">地理院タイル一覧</a>',
+        }, */
+        //航空写真ここまで
      },
       layers: [
+        //背景地図レイヤー
+        {
+          id: 'osm-layer',
+          source: 'mierune',
+          type: 'raster',
+          //paint: {"raster-opacity": 0.5},
+        },
+
         //アンカレジパーク追加
         {
           id: 'anchorage-map',
@@ -81,13 +87,6 @@ const map = new maplibregl.Map({
           },
         },
 
-        //背景地図レイヤー
-        {
-          id: 'osm-layer',
-          source: 'mierune',
-          type: 'raster',
-          //paint: {"raster-opacity": 0.5},
-        },
         /* //陰影起伏図ここから
         {
           id: 'inei-layer',
