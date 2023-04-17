@@ -107,26 +107,6 @@ const map = new maplibregl.Map({
     }
 });
 
-/* const image = new Image();
-image.src = './20220499-01-ankarejipark-s.jpg';
-image.onload = function() {
-  map.addImage('custom-image', image, { sdf: false });
-  map.addSource('image-source', {
-    type: 'image',
-    url: 'custom-image',
-    coordinates: [
-      [141.66079115, 42.82509906],
-      [141.67496330, 42.82680641],
-      [141.67702206, 42.81927329],
-      [141.66284385, 42.81756678],
-    ],
-  });
-  map.addLayer({
-    id: 'image-layer',
-    type: 'raster',
-    source: 'image-source'
-  });
-}; */
 
 /* // マップの初期ロード完了時に発火するイベントを定義
 map.on('load', () => {
@@ -175,7 +155,7 @@ map.on('load', function(){
   // ポイントのデータソース設定
   map.addSource('point_poi', {
     type: 'geojson',
-    data: "/terrain-hk-v1-1.geojson"
+    data: "./terrain-hk-v1-1.geojson"
   });
       // ポイントのデータソース設定
   map.addLayer({
