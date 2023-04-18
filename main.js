@@ -155,7 +155,7 @@ map.on('load', function(){
   // ポイントのデータソース設定
   map.addSource('point_poi', {
     type: 'geojson',
-    data: "./terrain-hk-v1-1.geojson"
+    data: "./terrain-hk-v0.geojson"
   });
       // ポイントのデータソース設定
   map.addLayer({
