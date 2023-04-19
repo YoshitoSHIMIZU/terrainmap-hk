@@ -153,15 +153,15 @@ map.on('load', () => {
 //ポイント追加
 map.on('load', function(){
   // ポイントのデータソース設定
-  map.addSource('point_poi', {
+  map.addSource('terrain-hk', {
     type: 'geojson',
     data: "./terrain-hk-v0.geojson"
   });
       // ポイントのデータソース設定
   map.addLayer({
-    "id": "point_poi",
+    "id": "terrain-hk",
     "type": "circle",
-    "source": "point_poi",
+    "source": "terrain-hk",
     "layout": {},
     "paint": {
       "circle-radius": 6,
@@ -198,27 +198,32 @@ map.on('load', function(){
 })
 
  // 地図上をクリックした際のイベント
- map.on('click', (e) => {
-  // クリック箇所にポイントレイヤーが存在するかどうかをチェック
-  const features = map.queryRenderedFeatures(e.point, {
-      layers: [
-          'point_poi',
-      ],
-  });
-  if (features.length === 0) return; // 地物がなければ処理を終了
+    // 地図上をクリックした際のイベント
+    map.on('click', (e) => {
+      // クリック箇所に指定緊急避難場所レイヤーが存在するかどうかをチェック
+      const features = map.queryRenderedFeatures(e.point, {
+          layers: [
+              'terrain-hk',
+          ],
+      });
+      if (features.length === 0) return; // 地物がなければ処理を終了
 
-  // 地物があればポップアップを表示する
-  const feature = features[0]; // 複数の地物が見つかっている場合は最初の要素を用いる
-  const popup = new maplibregl.Popup()
-      .setLngLat(feature.geometry.coordinates) // [lon, lat]
-      // 名称・説明を表示するよう、HTMLを文字列でセット
-      .setHTML(
-          `\
-  <div style="font-weight:900; font-size: 1.2rem;">${
-      feature.properties.Name
-  }</div>\
-  <div>${feature.properties.guide}</div>`
-      )
-      .setMaxWidth('400px')
-      .addTo(map);
-});
+      // 地物があればポップアップを表示する
+      const feature = features[0]; // 複数の地物が見つかっている場合は最初の要素を用いる
+      const popup = new maplibregl.Popup()
+          .setLngLat(feature.geometry.coordinates) // [lon, lat]
+          // 名称・住所・備考・対応している災害種別を表示するよう、HTMLを文字列でセット
+          .setHTML(
+              `\
+      <div style="font-weight:900; font-size: 1.2rem;">${
+          feature.properties.Name
+      }</div>\
+      <div>${feature.properties.Guide}</div>\
+      <br>\
+      <div>
+          著作権者:${feature.properties.Mapper}
+      </div>`,
+          )
+          .setMaxWidth('400px')
+          .addTo(map);
+  });
