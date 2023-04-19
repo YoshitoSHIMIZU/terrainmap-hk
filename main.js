@@ -219,7 +219,6 @@ map.on('load', function(){
           feature.properties.Name
       }</div>\
       <div>${feature.properties.Guide}</div>\
-      <br>\
       <div>
           著作権者:${feature.properties.Mapper}
       </div>`,
