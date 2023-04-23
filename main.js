@@ -49,11 +49,6 @@ const map = new maplibregl.Map({
             [141.6628374, 42.8175565],
           ],
         },
-/*           [15769606.94,5285387.34],
-        [15771184.290,5285647.030],
-        [15771413.214,5284504.212],
-        [15769835.545,5284244.972],  */
-              
 /*           //航空写真ここから
         aerial: {
           type: 'raster',
@@ -197,32 +192,32 @@ map.on('load', function(){
   }) */
 })
 
- // 地図上をクリックした際のイベント
+ 
     // 地図上をクリックした際のイベント
-    map.on('click', (e) => {
-      // クリック箇所に指定緊急避難場所レイヤーが存在するかどうかをチェック
-      const features = map.queryRenderedFeatures(e.point, {
-          layers: [
-              'terrain-hk',
-          ],
-      });
-      if (features.length === 0) return; // 地物がなければ処理を終了
-
-      // 地物があればポップアップを表示する
-      const feature = features[0]; // 複数の地物が見つかっている場合は最初の要素を用いる
-      const popup = new maplibregl.Popup()
-          .setLngLat(feature.geometry.coordinates) // [lon, lat]
-          // 名称・住所・備考・対応している災害種別を表示するよう、HTMLを文字列でセット
-          .setHTML(
-              `\
-      <div style="font-weight:900; font-size: 1.2rem;">${
-          feature.properties.Name
-      }</div>\
-      <div>${feature.properties.Guide}</div>\
-      <div>
-          著作権者:${feature.properties.Mapper}
-      </div>`,
-          )
-          .setMaxWidth('400px')
-          .addTo(map);
+map.on('click', (e) => {
+  // クリック箇所にテレインがあるかチェック
+  const features = map.queryRenderedFeatures(e.point, {
+      layers: [
+          'terrain-hk',
+      ],
   });
+  if (features.length === 0) return; // 地物がなければ処理を終了
+
+  // 地物があればポップアップを表示する
+  const feature = features[0]; // 複数の地物が見つかっている場合は最初の要素を用いる
+  const popup = new maplibregl.Popup()
+      .setLngLat(feature.geometry.coordinates) // [lon, lat]
+      // テレイン名と著作権者をHTMLを文字列でセット
+      .setHTML(
+          `\
+  <div style="font-weight:900; font-size: 1.2rem;">${
+      feature.properties.Name
+  }</div>\
+  <div>${feature.properties.Guide}</div>\
+  <div>
+      著作権者:${feature.properties.Mapper}
+  </div>`,
+      )
+      .setMaxWidth('400px')
+      .addTo(map);
+});
