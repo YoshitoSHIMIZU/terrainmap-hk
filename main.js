@@ -35,7 +35,9 @@ const map = new maplibregl.Map({
           maxzoom: 19,
           tileSize: 256,
           attribution:
-              '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          '<a href="https://maptiler.jp/" target="_blank">&copy; MIERUNE</a>',
+          '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>':
+          '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
         },
 
         //アンカレジパーク投影
@@ -150,7 +152,7 @@ map.on('load', function(){
   // ポイントのデータソース設定
   map.addSource('terrain-hk', {
     type: 'geojson',
-    data: "./terrain-hk-v0.geojson"
+    data: "./terrain-hk-v0-3.geojson"
   });
       // ポイントのデータソース設定
   map.addLayer({
@@ -167,9 +169,26 @@ map.on('load', function(){
         ['get', 'Type'],
         1, '#008000', //フォレストは緑
         2, '#FFC20E', //スプリントは肌色系
-        //"#ff4500",
+        5, '#bdb76b', //閉鎖テレインは薄緑
       ],
     },
+  });
+  
+  //マウスが移動した際のイベント
+  map.on('mousemove', (e) => {
+  //マウス下にレイヤがあるか？
+  const features = map.queryRenderedFeatures(e.point, {
+    layers: [
+      'terrain-hk',
+    ],
+  });
+  if (features.length > 0) {
+    //pointerに
+    map.getCanvas().style.cursor = 'pointer';
+  } else {
+    //存在しなければそのまま
+    map.getCanvas().style.cursor = '';
+  }
   });
 
 /*   map.addSource("my-route", {
