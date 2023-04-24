@@ -32,10 +32,15 @@ body {
   min-height: 100vh;
 }
 
+
 h1 {
+  background: #23ac33;/*背景色*/
+  padding: 0.5em;/*文字まわり（上下左右）の余白*/
+}
+/* h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
+} */
 
 #app {
   max-width: 1280px;

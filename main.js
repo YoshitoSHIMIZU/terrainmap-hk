@@ -11,9 +11,9 @@ import { useGsiTerrainSource } from 'maplibre-gl-gsi-terrain';
 
 const map = new maplibregl.Map({
   container: 'map', // div要素のid
-  zoom: 9, // 初期表示のズーム
+  zoom: 8, // 初期表示のズーム
   center: [141.6795, 43.0635], // 初期表示の中心
-  minZoom: 5, // 最小ズーム
+  minZoom: 6, // 最小ズーム
   maxZoom: 18, // 最大ズーム
   maxBounds: [122, 20, 154, 50], // 表示可能な範囲
   style: {
@@ -191,6 +191,7 @@ map.on('load', function(){
     }
   }) */
 })
+
 
  
     // 地図上をクリックした際のイベント
