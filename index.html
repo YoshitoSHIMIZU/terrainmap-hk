@@ -4,11 +4,33 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>テレインマップv0</title>
+        <title>北海道テレインガイドv0</title>
     </head>
     <body style="margin: 0">
-        <h1>北海道テレインガイド</h1>
+        <style>
+            .overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            }
+             
+            .overlay button {
+            font: 600 40px/40px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            background-color: #008000;
+            color: #ffffff;
+            display: inline-block;
+            margin: 0;
+            padding: 10px 20px;
+            border: none;
+            /* cursor: pointer; */
+            border-radius: 3px;
+            }
+            </style>
+
         <div id="map" style="height: 100vh"></div>
+        <div class="overlay">
+            <button id="replay">北海道テレインガイドv0</button>
+            </div>
         <script type="module" src="./main.js"></script>
     </body>
 </html>
