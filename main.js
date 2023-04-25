@@ -18,6 +18,7 @@ const map = new maplibregl.Map({
   maxBounds: [122, 20, 154, 50], // 表示可能な範囲
   style: {
       version: 8,
+      glyphs: './fonts/{fontstack}/{range}.pbf', //フォントデータ指定
       sources: {
           // 背景地図ソース
 /*           osm: {
@@ -33,23 +34,11 @@ const map = new maplibregl.Map({
           type: 'raster',
           tiles: ['https://api.maptiler.com/maps/jp-mierune-gray/{z}/{x}/{y}.png?key=IP9CYAWJVLGwdbFbpPVD'],
           maxzoom: 19,
-          tileSize: 256,
+          tileSize: 512,
           attribution:
           '<a href="https://maptiler.jp/" target="_blank">&copy; MIERUNE</a>',
           '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>':
           '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
-        },
-
-        //アンカレジパーク投影
-        anchorage: {
-          type: 'image',
-          url: './20220499-01-ankarejipark-s.jpg',
-          coordinates: [
-            [141.660790470, 42.825100608],
-            [141.67496204, 42.82680712],
-            [141.6770271, 42.8192833],
-            [141.6628374, 42.8175565],
-          ],
         },
 /*           //航空写真ここから
         aerial: {
@@ -72,16 +61,6 @@ const map = new maplibregl.Map({
           source: 'mierune',
           type: 'raster',
           //paint: {"raster-opacity": 0.5},
-        },
-
-        //アンカレジパーク追加
-        {
-          id: 'anchorage-map',
-          source: 'anchorage',
-          type: 'raster',
-          paint: {
-           'raster-opacity': 0.7,
-          },
         },
 
         /* //陰影起伏図ここから
@@ -124,7 +103,6 @@ map.on('load', () => {
   const gsiTerrainSource = useGsiTerrainSource(maplibregl.addProtocol);
   //地形データ追加
   map.addSource('terrain', gsiTerrainSource);
-
   //陰影図追加
   map.addLayer(
     {
@@ -145,51 +123,104 @@ map.on('load', () => {
       exaggeration:2, //何倍で強調？
     }),
   );
-});
 
-//ポイント追加
-map.on('load', function(){
+  //アンカレジパーク
+  map.addSource('anchorage' , {
+    type: 'image',
+    url: './20220499-01-ankarejipark-s.jpg',
+    coordinates: [
+      [141.660790470, 42.825100608],
+      [141.67496204, 42.82680712],
+      [141.6770271, 42.8192833],
+      [141.6628374, 42.8175565],
+    ],
+  });
+
+  map.addLayer({
+    minzoom: 12,
+    id: 'anchorage-map',
+    source: 'anchorage',
+    type: 'raster',
+    paint: {
+     'raster-opacity': 0.7,
+    },
+  });
+
+
   // ポイントのデータソース設定
   map.addSource('terrain-hk', {
     type: 'geojson',
     data: "./terrain-hk-v0-3.geojson"
   });
-      // ポイントのデータソース設定
+
+  // ポイントの表示
   map.addLayer({
-    "id": "terrain-hk",
-    "type": "circle",
-    "source": "terrain-hk",
-    "layout": {},
-    "paint": {
+    id: "terrain",
+    type: "circle",
+    source: "terrain-hk",
+    layout: {},
+    paint: {
       "circle-radius": 6,
       "circle-opacity": 0.8,
       "circle-color": [
         'interpolate',
         ['linear'],
         ['get', 'Type'],
-        1, '#008000', //フォレストは緑
-        2, '#FFC20E', //スプリントは肌色系
-        5, '#bdb76b', //閉鎖テレインは薄緑
+        1, '#007b43', //フォレストは緑
+        2, '#f8b500 ', //スプリントは肌色系
+        5, '#96514d ', //閉鎖テレインは薄緑
       ],
     },
   });
   
-  //マウスが移動した際のイベント
+  // テレイン名の表示
+  map.addLayer({
+    id: "terrain-name",
+    type: "symbol",
+    source: "terrain-hk",
+    minzoom: 10,
+    layout: {
+      'text-field': ['get', 'Name'],
+      'text-font': ['Noto Sans CJK JP Bold'],
+      'text-offset': [0, 0.5],
+      'text-anchor': 'top',
+      'text-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        10, //ズームレベル10のときフォントサイズ8、それをリニアに内挿
+        8,
+        14,
+        24
+      ],
+    },
+    paint: {
+      'text-halo-width': 1,
+      'text-halo-color': '#fff',
+    },
+  });
+
+    //マウスが移動した際のイベント
   map.on('mousemove', (e) => {
-  //マウス下にレイヤがあるか？
-  const features = map.queryRenderedFeatures(e.point, {
-    layers: [
-      'terrain-hk',
-    ],
+    //マウス下にレイヤがあるか？
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: [
+        'terrain',
+        'terrain-name'
+      ],
+    });
+    if (features.length > 0) {
+      //pointerに
+      map.getCanvas().style.cursor = 'pointer';
+    } else {
+      //存在しなければそのまま
+      map.getCanvas().style.cursor = '';
+    }
   });
-  if (features.length > 0) {
-    //pointerに
-    map.getCanvas().style.cursor = 'pointer';
-  } else {
-    //存在しなければそのまま
-    map.getCanvas().style.cursor = '';
-  }
-  });
+  
+});
+
+
 
 /*   map.addSource("my-route", {
     "type":"geojson",
@@ -209,7 +240,6 @@ map.on('load', function(){
       'line-width': 4
     }
   }) */
-})
 
 
  
@@ -218,7 +248,8 @@ map.on('click', (e) => {
   // クリック箇所にテレインがあるかチェック
   const features = map.queryRenderedFeatures(e.point, {
       layers: [
-          'terrain-hk',
+          'terrain',
+          'terrain-name'
       ],
   });
   if (features.length === 0) return; // 地物がなければ処理を終了
