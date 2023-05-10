@@ -33,7 +33,7 @@ const map = new maplibregl.Map({
         mierune: {
           type: 'raster',
           tiles: ['https://api.maptiler.com/maps/jp-mierune-gray/{z}/{x}/{y}.png?key=IP9CYAWJVLGwdbFbpPVD'],
-          maxzoom: 19,
+          maxzoom: 18,
           tileSize: 512,
           attribution:
           '<a href="https://maptiler.jp/" target="_blank">&copy; MIERUNE</a>',
@@ -191,7 +191,7 @@ map.on('load', () => {
         10, //ズームレベル10のときフォントサイズ8、それをリニアに内挿
         8,
         14,
-        24
+        18
       ],
     },
     paint: {
